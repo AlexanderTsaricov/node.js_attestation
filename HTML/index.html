@@ -7,7 +7,17 @@
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <h1 class="headText">Hello Developer!</h1>
-    <a class="linkTo" href="/users">See users</a>    
+    <h2 class="headText">Hello Developer!</h1>
+    <a class="linkTo" href="/users">See users</a>
+    <form action="/submit" method="post" class="addUser">
+        <h2 class="headText">Add user</h2>
+        <label class="addUser_email" for="name">Name</label>
+        <input id="name" name="username" type="text" class="addUser_name">
+        <label class="addUser_email" for="email">Email</label>
+        <input id="email" name="email" type="email" class="addUser_email">
+        <label class="addUser_email" for="telephone">Telephone</label>
+        <input id="telephone" name="telephone" type="text" class="addUser_telephone">
+        <button type="submit">Submit</button>
+    </form>    
 </body>
 </html>

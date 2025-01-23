@@ -1,7 +1,32 @@
 [
-    {
-        "username": "Salis",
-        "email": "purple@gmail.ru",
-        "telephone": "+0569215638"
-    }
+  {
+    "username": "Salis",
+    "email": "purple@gmail.ru",
+    "telephone": "+0569215638"
+  },
+  {
+    "username": "gdfgd",
+    "email": "cherkuck@gmail.com",
+    "telephone": "+09876541232"
+  },
+  {
+    "username": "BukaByaka",
+    "email": "byaka@gmail.com",
+    "telephone": "+08973219847"
+  },
+  {
+    "username": "BukaByaka_2",
+    "email": "byaka@gmail.com",
+    "telephone": "+08973219847"
+  },
+  {
+    "username": "BukaByaka_3",
+    "email": "byaka@gmail.com",
+    "telephone": "+08973219847"
+  },
+  {
+    "username": "BukaByaka_4",
+    "email": "byaka@gmail.com",
+    "telephone": "+08973219847"
+  }
 ]
