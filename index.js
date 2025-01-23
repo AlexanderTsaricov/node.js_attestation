@@ -46,7 +46,14 @@ app.post("/submit", (req, res) => {
     if (errorTelephone || errorUsername) {
         return res.status(400).send({
             message: "Validation error",
-            details: error.details[0].message,
+            details: {
+                telephoneError: errorTelephone
+                    ? errorTelephone.details[0].message
+                    : null,
+                usernameError: errorUsername
+                    ? errorUsername.details[0].message
+                    : null,
+            },
         });
     }
     fs.readFile("users.json", "utf-8", (err, data) => {
