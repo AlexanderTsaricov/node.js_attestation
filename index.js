@@ -1,10 +1,11 @@
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
-const joi = require("joi");
 const handlebars = require("handlebars");
 const app = express();
 const port = 3000;
+const { usernameSchema } = require("./schems/username");
+const { telephoneSchema } = require("./schems/telephone");
 
 const templatePath = path.join(__dirname, "HTML/templates/users.handlebars");
 
@@ -39,7 +40,15 @@ app.get("/users", (req, res) => {
 
 app.post("/submit", (req, res) => {
     const userIn = req.body;
-    console.log("input user:\n" + userIn);
+    console.log(userIn);
+    const { errorTelephone, valueTelephone } = telephoneSchema.validate(userIn);
+    const { errorUsername, valueUsername } = usernameSchema.validate(userIn);
+    if (errorTelephone || errorUsername) {
+        return res.status(400).send({
+            message: "Validation error",
+            details: error.details[0].message,
+        });
+    }
     fs.readFile("users.json", "utf-8", (err, data) => {
         if (err) {
             res.status(500);
