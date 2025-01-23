@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <h1 class="headText">Users list</h1>
+    <a href="/" class="linkTo">Go to head</a>
+    <div class="usersBox">
+        {{#each users}}
+        <div class="userBox">
+            <p class="userBox_text">User data</p>
+            <ul>
+                <li class="userBox_name userBox_li">{{this.username}}</li>
+                <li class="userBox_email userBox_li">{{this.email}}</li>
+                <li class="userBox_tepephone userBox_li">{{this.telephone}}</li>
+            </ul>
+            
+        </div>
+        {{/each}}
+    </div>
+</body>
+</html>

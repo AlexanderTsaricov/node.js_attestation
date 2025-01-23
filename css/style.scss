@@ -1,0 +1,182 @@
+$primary-color: #ff7eb3;
+$secondary-color: #8a2be2;
+$text-color: #ffffff;
+$shadow-color: rgba(0, 0, 0, 0.4);
+
+.headText {
+    font-family: "Poppins", sans-serif; // Стильный шрифт
+    font-size: 3rem; // Размер шрифта
+    font-weight: bold;
+    text-transform: uppercase; // Преобразование текста в верхний регистр
+    text-align: center; // Выравнивание текста
+    color: $text-color; // Цвет текста
+    background: linear-gradient(90deg, $primary-color, $secondary-color); // Градиент
+    -webkit-background-clip: text; // Клип текста под градиент
+    -webkit-text-fill-color: transparent; // Убираем фон текста
+    text-shadow: 2px 4px 6px $shadow-color; // Тень для текста
+    position: relative; // Для работы с псевдоэлементами
+
+    // Анимация при наведении
+    &:hover {
+        animation: glitch 1.5s infinite; // Имитация "глитча"
+    }
+
+    // Псевдоэлемент для дополнительного эффекта
+    &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -5px;
+        height: 3px;
+        background: $secondary-color; // Подчеркивание внизу
+        transform: scaleX(0); // Изначально скрываем
+        transition: transform 0.3s ease-in-out; // Анимация при наведении
+    }
+
+    &:hover::after {
+        transform: scaleX(1); // Раскрытие линии
+    }
+}
+
+// Анимация "глитча"
+@keyframes glitch {
+
+    0%,
+    100% {
+        text-shadow: 2px 4px 6px $shadow-color, -2px -4px 6px rgba(255, 0, 0, 0.6);
+    }
+
+    33% {
+        text-shadow: 3px 5px 8px rgba(0, 255, 0, 0.7), -3px -5px 8px rgba(0, 0, 255, 0.7);
+    }
+
+    66% {
+        text-shadow: -3px -5px 8px rgba(255, 255, 0, 0.8), 3px 5px 8px rgba(255, 0, 255, 0.8);
+    }
+}
+
+.linkTo {
+    text-decoration: none;
+    /* Убираем стандартное подчеркивание */
+    color: #3498db;
+    /* Начальный цвет ссылки */
+    font-weight: bold;
+    font-size: 18px;
+    position: relative;
+    transition: color 0.3s ease;
+    /* Плавное изменение цвета */
+
+    /* Добавление эффектов при наведении */
+    &:hover {
+        color: #2ecc71;
+        /* Цвет ссылки при наведении */
+    }
+
+    /* Эффект подчеркивания */
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: -3px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: #3498db;
+        /* Цвет подчеркивания */
+        transition: width 0.3s ease;
+        /* Плавное расширение подчеркивания */
+    }
+
+    &:hover::after {
+        width: 100%;
+        /* При наведении подчеркивание расширяется на всю ширину ссылки */
+    }
+}
+
+.userBox {
+    background-color: #797474;
+    padding: 15px;
+    &_text {
+        font-size: 18px;
+        line-height: 1.6;
+        color: #333;
+        /* Основной цвет текста */
+        font-family: 'Arial', sans-serif;
+        margin: 20px 0;
+        padding: 15px;
+        background-color: #f4f4f4;
+        /* Светлый фон параграфа */
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        /* Тень для объема */
+        transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        /* Плавные анимации */
+
+        /* Параметры для текста */
+        text-align: justify;
+        /* Выравнивание текста по ширине */
+
+        /* Эффект при наведении */
+        &:hover {
+            background-color: #ecf0f1;
+            /* Более светлый фон при наведении */
+            transform: translateY(-5px);
+            /* Легкое поднятие параграфа */
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+            /* Усиление тени */
+        }
+
+        /* Плавное изменение цвета текста при фокусе */
+        &:focus {
+            color: #2ecc71;
+            outline: none;
+            /* Убираем стандартное обводку при фокусе */
+        }
+    }
+    &_li {
+        font-size: 18px;
+        line-height: 1.5;
+        color: #555;
+        /* Цвет текста */
+        padding: 10px 15px;
+        margin: 8px 0;
+        background-color: #fafafa;
+        /* Светлый фон */
+        border-radius: 6px;
+        /* Скругление углов */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        /* Тень */
+        transition: all 0.3s ease;
+        /* Плавные анимации для всех изменений */
+        cursor: pointer;
+        /* Курсор в виде указателя */
+
+        /* Эффект при наведении */
+        &:hover {
+            background-color: #f1f1f1;
+            /* Более светлый фон при наведении */
+            color: #3498db;
+            /* Цвет текста при наведении */
+            transform: translateX(10px);
+            /* Легкое смещение вправо */
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+            /* Увеличение тени */
+        }
+
+        /* Эффект при фокусе (для доступности) */
+        &:focus {
+            outline: none;
+            /* Убираем стандартную обводку */
+            background-color: #ecf0f1;
+            /* Фон при фокусе */
+            color: #2ecc71;
+            /* Цвет текста при фокусе */
+        }
+
+        /* Стиль для списка с пунктами */
+        &:not(:last-child) {
+            border-bottom: 1px solid #ddd;
+            /* Разделение пунктов списка */
+        }
+    }
+}
