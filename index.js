@@ -4,13 +4,14 @@ const fs = require("fs");
 const handlebars = require("handlebars");
 const app = express();
 const port = 3000;
-const { usernameSchema } = require("./schems/username");
-const { telephoneSchema } = require("./schems/telephone");
+const usernameSchema = require("./schems/username");
+const telephoneSchema = require("./schems/telephone");
 
 const templatePath = path.join(__dirname, "HTML/templates/users.handlebars");
 
 app.use(express.static(path.join(__dirname, "css")));
 app.use(express.static(path.join(__dirname, "HTML")));
+app.use("/js", express.static(path.join(__dirname, "HTML/templates/js")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -67,9 +68,10 @@ app.post("/submit", (req, res) => {
             );
             if (!hasName) {
                 users.push(userIn);
+                const newSaveUsers = JSON.stringify(users);
                 fs.writeFile(
                     "users.json",
-                    JSON.stringify(users, null, 2),
+                    newSaveUsers,
                     "utf-8",
                     (writeErr) => {
                         if (writeErr) {
@@ -77,12 +79,52 @@ app.post("/submit", (req, res) => {
                         }
 
                         res.status(200);
-                        res.redirect("/");
+                        res.redirect("/users");
                     }
                 );
+                console.log("Delete complite");
             } else {
                 return res.status(400).send({
                     error: "This user already exists",
+                });
+            }
+        }
+    });
+});
+
+app.delete("/users/:username/delete", (req, res) => {
+    console.log("Deleting user: ", req.params.username);
+    fs.readFile("users.json", "utf-8", (err, data) => {
+        if (err) {
+            res.status(500);
+            res.send(err.message);
+        } else {
+            const users = JSON.parse(data);
+            const hasName = users.some(
+                (user) => user.username === req.params.username
+            );
+            if (hasName) {
+                const userIndex = users.findIndex(
+                    (user) => user.username === req.params.username
+                );
+                if (userIndex !== -1) {
+                    users.splice(userIndex, 1);
+                }
+                fs.writeFile(
+                    "users.json",
+                    JSON.stringify(users, null, 2),
+                    "utf-8",
+                    (writeErr) => {
+                        if (writeErr) {
+                            return res.status(500).send(writeErr.message);
+                        }
+
+                        res.status(200).end();
+                    }
+                );
+            } else {
+                return res.status(404).send({
+                    error: "This user not found",
                 });
             }
         }
