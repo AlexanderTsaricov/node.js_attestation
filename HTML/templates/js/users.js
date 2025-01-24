@@ -6,9 +6,7 @@ deleteButton.forEach((element) => {
         event.preventDefault();
         const username = element.getAttribute("data-username");
         console.log(`/users/${username}/delete`);
-        fetch(`/users/${username}/delete`, {
-            method: "DELETE",
-        })
+        fetch(`/users/${username}/delete`, { method: "DELETE" })
             .then((response) => {
                 if (response.ok) {
                     alert("User deleted successfully");
@@ -26,10 +24,7 @@ deleteButton.forEach((element) => {
 userDataLists.forEach((userDataList) => {
     userDataList.addEventListener("click", function (event) {
         if (event.target.tagName === "LI") {
-            const username =
-                event.target.parentElement.querySelector(
-                    ".userBox_name"
-                ).textContent;
+            const username = event.target.parentElement.querySelector(".userBox_name").textContent;
             fetch(`/users/${username}`, {
                 method: "GET",
             })

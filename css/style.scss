@@ -180,6 +180,35 @@ $shadow-color: rgba(0, 0, 0, 0.4);
             /* Разделение пунктов списка */
         }
     }
+    &_changeUser {
+        background-color: #3498db; // Начальный цвет кнопки
+        color: #fff; // Цвет текста
+        border: none; // Убираем стандартное обрамление
+        border-radius: 6px; // Скругленные углы
+        font-size: 16px; // Размер текста
+        padding: 10px 20px; // Отступы внутри кнопки
+        cursor: pointer; // Курсор в виде указателя
+        transition: background-color 0.3s ease, transform 0.2s ease; // Плавные анимации
+        margin-top: 10px; // Отступ сверху
+    
+        // Эффект при наведении
+        &:hover {
+            background-color: #2980b9; // Более темный оттенок синего при наведении
+            transform: translateY(-3px); // Легкое поднятие кнопки
+        }
+    
+        // Эффект при нажатии
+        &:active {
+            background-color: #1c5e8c; // Еще более темный оттенок при нажатии
+            transform: translateY(1px); // Легкое опускание кнопки
+        }
+    
+        // Для мобильных устройств
+        @media (max-width: 600px) {
+            font-size: 14px; // Меньший размер шрифта на мобильных устройствах
+            padding: 8px 16px; // Меньшие отступы
+        }
+    }
 }
 /* Стили для формы */
 .addUser {
@@ -251,5 +280,111 @@ $shadow-color: rgba(0, 0, 0, 0.4);
     .addUser input,
     .addUser button {
         font-size: 14px;
+    }
+}
+
+
+$primary-color: #ff7eb3;
+$secondary-color: #8a2be2;
+$text-color: #ffffff;
+$background-color: #f4f4f9;
+$input-border-color: #ccc;
+$hover-color: #3498db;
+$focus-color: #2ecc71;
+
+.changeBox {
+    $button-background-color: #3498db;
+    $button-hover-color: #2980b9;
+    $button-active-color: #1c5e8c;
+    background-color: $background-color;
+    margin: 20px auto;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+
+    &:hover {
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        transform: translateY(-5px);
+    }
+
+    &_header {
+        font-family: 'Poppins', sans-serif;
+        font-size: 2rem;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 20px;
+        color: $primary-color;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    &_label {
+        font-size: 16px;
+        color: #333;
+        font-weight: bold;
+        margin-bottom: 8px;
+        display: block;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    &_input {
+        font-size: 16px;
+        padding: 10px 15px;
+        border: 2px solid $input-border-color;
+        border-radius: 6px;
+        outline: none;
+        width: 100%;
+        margin-bottom: 20px;
+        background-color: #fff;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+        &:focus {
+            border-color: $focus-color;
+            box-shadow: 0 0 5px rgba(46, 204, 113, 0.3);
+        }
+
+        &::placeholder {
+            color: #aaa;
+            font-style: italic;
+        }
+
+        &:hover {
+            border-color: $hover-color;
+        }
+    }
+
+    &_button {
+        text-decoration: none;
+        background-color: $button-background-color;
+        color: $text-color;
+        font-size: 16px;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        width: 100%;
+
+        &:hover {
+            background-color: $button-hover-color;
+        }
+
+        &:active {
+            background-color: $button-active-color;
+        }
+
+        &:focus {
+            outline: none;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+        }
     }
 }

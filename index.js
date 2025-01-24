@@ -8,6 +8,7 @@ const usernameSchema = require("./schems/username");
 const telephoneSchema = require("./schems/telephone");
 
 const templatePath = path.join(__dirname, "HTML/templates/users.handlebars");
+const templatePathChageUser = path.join(__dirname, "HTML/templates/changeUser.handlebars");
 
 app.use(express.static(path.join(__dirname, "css")));
 app.use(express.static(path.join(__dirname, "HTML")));
@@ -52,17 +53,45 @@ app.get("/users/:username", (req, res) => {
             } else {
                 const template = handlebars.compile(templateData);
                 const users = JSON.parse(data);
-                const hasName = users.some(
-                    (user) => user.username === req.params.username
-                );
+                const hasName = users.some((user) => user.username === req.params.username);
                 if (hasName) {
-                    const userIndex = users.findIndex(
-                        (user) => user.username === req.params.username
-                    );
+                    const userIndex = users.findIndex((user) => user.username === req.params.username);
                     if (userIndex !== -1) {
                         const needUser = [users[userIndex]];
                         console.log(needUser);
                         const html = template({ users: needUser });
+                        res.send(html);
+                    }
+                } else {
+                    return res.status(404).send({
+                        error: "This user not found",
+                    });
+                }
+            }
+        });
+    });
+});
+
+app.get("/users/:username/changeUser", (req, res) => {
+    fs.readFile(templatePathChageUser, "utf-8", (templateErr, templateData) => {
+        if (templateErr) {
+            res.status(500).send("Template error");
+            return;
+        }
+        fs.readFile("users.json", "utf-8", (err, data) => {
+            if (err) {
+                res.status(500);
+                res.send(err.message);
+            } else {
+                const template = handlebars.compile(templateData);
+                const users = JSON.parse(data);
+                const hasName = users.some((user) => user.username === req.params.username);
+                if (hasName) {
+                    const userIndex = users.findIndex((user) => user.username === req.params.username);
+                    if (userIndex !== -1) {
+                        const needUser = users[userIndex];
+                        console.log(needUser);
+                        const html = template(needUser);
                         res.send(html);
                     }
                 } else {
@@ -84,12 +113,8 @@ app.post("/submit", (req, res) => {
         return res.status(400).send({
             message: "Validation error",
             details: {
-                telephoneError: errorTelephone
-                    ? errorTelephone.details[0].message
-                    : null,
-                usernameError: errorUsername
-                    ? errorUsername.details[0].message
-                    : null,
+                telephoneError: errorTelephone ? errorTelephone.details[0].message : null,
+                usernameError: errorUsername ? errorUsername.details[0].message : null,
             },
         });
     }
@@ -99,25 +124,18 @@ app.post("/submit", (req, res) => {
             res.send(err.message);
         } else {
             const users = JSON.parse(data);
-            const hasName = users.some(
-                (user) => user.username === userIn.username
-            );
+            const hasName = users.some((user) => user.username === userIn.username);
             if (!hasName) {
                 users.push(userIn);
                 const newSaveUsers = JSON.stringify(users);
-                fs.writeFile(
-                    "users.json",
-                    newSaveUsers,
-                    "utf-8",
-                    (writeErr) => {
-                        if (writeErr) {
-                            return res.status(500);
-                        }
-
-                        res.status(200);
-                        res.redirect("/users");
+                fs.writeFile("users.json", newSaveUsers, "utf-8", (writeErr) => {
+                    if (writeErr) {
+                        return res.status(500);
                     }
-                );
+
+                    res.status(200);
+                    res.redirect("/users");
+                });
                 console.log("Delete complite");
             } else {
                 return res.status(400).send({
@@ -136,28 +154,19 @@ app.delete("/users/:username/delete", (req, res) => {
             res.send(err.message);
         } else {
             const users = JSON.parse(data);
-            const hasName = users.some(
-                (user) => user.username === req.params.username
-            );
+            const hasName = users.some((user) => user.username === req.params.username);
             if (hasName) {
-                const userIndex = users.findIndex(
-                    (user) => user.username === req.params.username
-                );
+                const userIndex = users.findIndex((user) => user.username === req.params.username);
                 if (userIndex !== -1) {
                     users.splice(userIndex, 1);
                 }
-                fs.writeFile(
-                    "users.json",
-                    JSON.stringify(users, null, 2),
-                    "utf-8",
-                    (writeErr) => {
-                        if (writeErr) {
-                            return res.status(500).send(writeErr.message);
-                        }
-
-                        res.status(200).end();
+                fs.writeFile("users.json", JSON.stringify(users, null, 2), "utf-8", (writeErr) => {
+                    if (writeErr) {
+                        return res.status(500).send(writeErr.message);
                     }
-                );
+
+                    res.status(200).end();
+                });
             } else {
                 return res.status(404).send({
                     error: "This user not found",
@@ -165,6 +174,49 @@ app.delete("/users/:username/delete", (req, res) => {
             }
         }
     });
+});
+
+app.put("/users/:username/changeUser/change", (req, res) => {
+    const changedUser = req.body;
+    console.log("Change user:");
+    console.log(changedUser);
+    if (changedUser.username && changedUser.email && changedUser.telephone) {
+        fs.readFile("users.json", "utf-8", (err, data) => {
+            if (err) {
+                res.status(500);
+                res.send(err.message);
+            } else {
+                const users = JSON.parse(data);
+                const hasName = users.some((user) => user.username === req.params.username);
+                if (hasName) {
+                    const userIndex = users.findIndex((user) => user.username === req.params.username);
+                    if (userIndex !== -1) {
+                        users[userIndex].username = changedUser.username;
+                        users[userIndex].email = changedUser.email;
+                        users[userIndex].telephone = changedUser.telephone;
+                    }
+                    fs.writeFile("users.json", JSON.stringify(users, null, 2), "utf-8", (writeErr) => {
+                        if (writeErr) {
+                            console.log("write error");
+                            return res.status(500).send(writeErr.message);
+                        }
+
+                        res.status(200).end();
+                    });
+                } else {
+                    console.log("User not found");
+                    return res.status(404).send({
+                        error: "This user not found",
+                    });
+                }
+            }
+        });
+    } else {
+        console.log(changedUser);
+        return res.status(500).send({
+            error: "undefined data",
+        });
+    }
 });
 
 app.listen(port, () => {

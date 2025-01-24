@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change user {{this.username}}</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <h1 class="headText">Chagne user {{this.username}}</h1>
+    <a href="/" class="linkTo">Go to head</a>
+    <div class="usersBox">
+        <div class="userBox">
+            <p class="userBox_text">User data</p>
+            <ul class="userBox_dataList">
+                <li class="userBox_name userBox_li">{{this.username}}</li>
+                <li class="userBox_email userBox_li">{{this.email}}</li>
+                <li class="userBox_tepephone userBox_li">{{this.telephone}}</li>
+            </ul>
+        </div>
+    </div>
+    <form class="changeBox" action="/users/{{this.username}}/changeUser/change" method="put">
+        <h1 class="changeBox_header">What to change</h1>
+        <label class="changeBox_label" for="name">Username</label>
+        <input type="text" class="changeBox_input" id="name" name="username" value="{{this.username}}">
+        <label for="email" class="changeBox_label">Email</label>
+        <input type="email" class="changeBox_input" name="email" id="email" name="emaul" value="{{this.email}}">
+        <label for="telephone" class="changeBox_label">Telephone</label>
+        <input type="text" class="changeBox_input" id="telephone" name="telephone" value="{{this.telephone}}">
+        <button class="changeBox_button" data-username="{{this.username}}">Submit change</button>
+    </form>
+    <script src="/js/changeUser.js"></script>
+</body>
+</html>
