@@ -39,6 +39,42 @@ app.get("/users", (req, res) => {
     });
 });
 
+app.get("/users/:username", (req, res) => {
+    fs.readFile(templatePath, "utf-8", (templateErr, templateData) => {
+        if (templateErr) {
+            res.status(500).send("Template error");
+            return;
+        }
+        fs.readFile("users.json", "utf-8", (err, data) => {
+            if (err) {
+                res.status(500);
+                res.send(err.message);
+            } else {
+                const template = handlebars.compile(templateData);
+                const users = JSON.parse(data);
+                const hasName = users.some(
+                    (user) => user.username === req.params.username
+                );
+                if (hasName) {
+                    const userIndex = users.findIndex(
+                        (user) => user.username === req.params.username
+                    );
+                    if (userIndex !== -1) {
+                        const needUser = [users[userIndex]];
+                        console.log(needUser);
+                        const html = template({ users: needUser });
+                        res.send(html);
+                    }
+                } else {
+                    return res.status(404).send({
+                        error: "This user not found",
+                    });
+                }
+            }
+        });
+    });
+});
+
 app.post("/submit", (req, res) => {
     const userIn = req.body;
     console.log(userIn);
